@@ -90,5 +90,3 @@ Run the `kafka_consumer_video.py` script on your local machine to consume the vi
 - **Kafka Producer Configuration:** Set up producers to connect to Kafka either on localhost or the external IP address and send video files in chunks.
 - **Run the Producer Scripts:** Execute the producer script on the external host to send video content to Kafka.
 - **Consumer Setup:** Configure a Kafka consumer on your local machine to process the messages and save the video file locally.
-
-By following these steps, you will have a Kafka producer on one host sending video content to a Kafka broker, and a Kafka consumer on another host processing the messages and saving the video content locally.

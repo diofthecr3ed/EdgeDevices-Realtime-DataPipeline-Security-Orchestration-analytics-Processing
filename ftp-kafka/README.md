@@ -1,7 +1,3 @@
-Sure, here is the updated README file with instructions on setting up the FTP server.
-
----
-
 # Kafka Producer and Consumer with FTP Transfer
 
 This project demonstrates how to set up a Kafka producer and consumer on different hosts. The producer sends file content to a Kafka broker, and the consumer retrieves this content and transfers it via FTP to a specified server.
@@ -169,9 +165,3 @@ This project demonstrates how to set up a Kafka producer and consumer on differe
 - **FTP Server Setup:** Set up an FTP server to allow file transfers.
 - **Run the Producer Script:** Execute the producer script on the remote host to send file content to Kafka.
 - **Consumer Setup:** Configure a Kafka consumer on another host to process and transfer the messages via FTP.
-
-By following these steps, you will have a Kafka producer on one host sending file content to a Kafka broker, and a Kafka consumer on another host processing the messages and transferring the file content via FTP.
-
----
-
-This README provides detailed instructions on setting up the Kafka broker and FTP server, and running the producer and consumer scripts on different hosts. If you have any further questions or issues, feel free to ask!

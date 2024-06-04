@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+![image](https://github.com/guri2198/end-to-end-datapipeline-with-gui/assets/42201427/76fe7b5f-681f-4aca-b8aa-5806f705972f)
+
+
+
+
+
 ### Fast way to set up kafka cluster 
 
 ### 1. Download and Install Kafka

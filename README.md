@@ -1,11 +1,11 @@
 
 
 
+<img width="854" alt="System-architecture" src="https://github.com/guri2198/Smart-and-Sustainble-urban-Mobility-data-pipeline/assets/42201427/64256f94-a7d5-43db-95ed-791bdbb3c0b7">
 
 
 
 
-![image](https://github.com/guri2198/end-to-end-datapipeline-with-gui/assets/42201427/76fe7b5f-681f-4aca-b8aa-5806f705972f)
 
 
 

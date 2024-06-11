@@ -1,0 +1,8 @@
+{
+  "connector.class": "com.datamountaineer.streamreactor.connect.mqtt.source.MqttSourceConnector",
+  "tasks.max": "1",
+  "name": "MqttSourceConnector",
+  "connect.mqtt.kcql": "INSERT INTO kafka_sensors_cpu_ram SELECT * FROM sensors/cpu_ram",
+  "connect.mqtt.service.quality": "0",
+  "connect.mqtt.hosts": "tcp://10.1.33.203:1883"
+}

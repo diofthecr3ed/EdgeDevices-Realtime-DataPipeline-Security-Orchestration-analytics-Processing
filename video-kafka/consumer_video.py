@@ -4,7 +4,7 @@ import os
 # Kafka Consumer Configuration
 consumer = KafkaConsumer(
     'video_content',
-    bootstrap_servers=['10.1.33.25:9092'],
+    bootstrap_servers=['10.1.16.203:9092'],
     auto_offset_reset='earliest',
     enable_auto_commit=True,
     group_id='my-group'

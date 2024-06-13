@@ -4,7 +4,7 @@ import Chart from "chart.js/auto";
 import "chartjs-adapter-date-fns";
 import "./SensorChart.css";
 
-const SensorChart = () => {
+const SensorChart = ({ dataKey, label }) => {
   const chartRef = useRef(null);
   const socketRef = useRef(null);
   const chartInstance = useRef(null);
@@ -20,7 +20,7 @@ const SensorChart = () => {
         labels: [],
         datasets: [
           {
-            label: "Sensor Data",
+            label: label,
             data: [],
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1,
@@ -72,13 +72,15 @@ const SensorChart = () => {
     };
 
     socketRef.current.on("updateSensorData", (msg) => {
-      console.log("Received sensorData :: " + msg.date + " :: " + msg.value);
+      console.log(
+        "Received sensorData :: " + msg.timestamp + " :: " + msg[dataKey]
+      );
 
       // Show only MAX_DATA_COUNT data
       if (chartInstance.current.data.labels.length > MAX_DATA_COUNT) {
         removeFirstData();
       }
-      addData(msg.date, msg.value);
+      addData(msg.timestamp, msg[dataKey]);
     });
 
     return () => {
@@ -87,7 +89,7 @@ const SensorChart = () => {
       }
       socketRef.current.disconnect();
     };
-  }, []);
+  }, [dataKey]);
 
   return (
     <div className="chart-container">

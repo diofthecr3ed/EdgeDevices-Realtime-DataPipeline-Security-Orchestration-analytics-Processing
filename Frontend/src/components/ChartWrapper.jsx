@@ -1,28 +1,21 @@
 import React from "react";
 import SensorChart from "./SensorChart";
+import "./SensorChart.css";
 
 const ChartsWrapper = () => {
-  // Sample data for each chart
-  const chartData1 = {
-    /* Your data for chart 1 */
-  };
-  const chartData2 = {
-    /* Your data for chart 2 */
-  };
-  const chartData3 = {
-    /* Your data for chart 3 */
-  };
-
   return (
     <div className="charts-wrapper">
       <div className="chart-container">
-        <SensorChart />
+        <h2 className="chartHeading">CPU Temperature</h2>
+        <SensorChart dataKey="cpu_temperature" label="CPU Temperature" />
       </div>
       <div className="chart-container">
-        <SensorChart />
+        <h2 className="chartHeading">Ram Usage</h2>
+        <SensorChart dataKey="ram_usage" label="RAM Usage" />
       </div>
       <div className="chart-container">
-        <SensorChart />
+        <h2 className="chartHeading">Humidity</h2>
+        <SensorChart dataKey="humidity" label="Humidity" />
       </div>
     </div>
   );

@@ -1,8 +1,31 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO
-from random import random
 from threading import Lock
 from datetime import datetime
+import time
+import csv
+
+# Path to the CSV file
+CSV_FILE_PATH = 'sensor_data.csv'
+
+# Function to read data from the CSV file
+def read_csv_data(file_path):
+    data = []
+    with open(file_path, mode='r') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            # Convert necessary fields to their appropriate data types
+            row['temperature'] = float(row['temperature'])
+            row['humidity'] = float(row['humidity'])
+            row['cpu_temperature'] = float(row['cpu_temperature'])
+            row['ram_usage'] = float(row['ram_usage'])
+            row['network_data_sent'] = int(row['network_data_sent'])
+            row['network_data_received'] = int(row['network_data_received'])
+            data.append(row)
+    return data
+
+# Load the data from CSV
+data = read_csv_data(CSV_FILE_PATH)
 
 thread = None
 thread_lock = Lock()
@@ -11,24 +34,21 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aadi'
 socketio = SocketIO(app, cors_allowed_origins='*')
 
-def get_current_datetime():
-    now = datetime.now()
-    return now.strftime("%m/%d/%Y %H:%M:%S")  # Ensure the format matches
-
 def background_thread():
-    print("Generating random sensor values")
-    while True:
-        dummy_sensor_value = round(random() * 100, 3)
-        socketio.emit('updateSensorData', {'value': dummy_sensor_value, "date": get_current_datetime()})
-        socketio.sleep(1)
-
+    print("Sending real sensor values")
+    for record in data:
+        timestamp = record['timestamp']
+        cpu_temperature = record['cpu_temperature']
+        ram_usage = record['ram_usage']
+        humidity = record['humidity']
+        socketio.emit('updateSensorData', {'timestamp': timestamp, 'cpu_temperature': cpu_temperature, 'ram_usage': ram_usage, 'humidity': humidity})
+        time.sleep(1)  # Simulate the 0.5-second interval between data points
 
 @socketio.on('connect')
 def connect():
     global thread
     print('Client connected')
 
-    global thread
     with thread_lock:
         if thread is None:
             thread = socketio.start_background_task(background_thread)

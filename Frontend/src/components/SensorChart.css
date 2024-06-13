@@ -1,0 +1,28 @@
+.chart-container {
+    flex: 1;
+    margin: 10px;
+    min-width: 200px;
+    min-height: 150px;
+  }
+  
+  .charts-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @media (max-width: 768px) {
+    .chart-container {
+      min-width: 150px;
+      min-height: 100px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .chart-container {
+      min-width: 100px;
+      min-height: 75px;
+    }
+  }
+  

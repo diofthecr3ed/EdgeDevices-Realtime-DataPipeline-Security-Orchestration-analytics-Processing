@@ -1,0 +1,25 @@
+.authform {
+    font-size: initial;
+    width: -webkit-fill-available;
+}
+
+/* Auth.css */
+.authform {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .nav-pills .nav-link {
+    cursor: pointer;
+  }
+  
+  .form-outline {
+    margin-bottom: 1rem;
+  }
+  
+  .btn-block {
+    display: block;
+    width: 100%;
+  }
+  

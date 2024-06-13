@@ -1,0 +1,89 @@
+.inside_card {
+    border: none !important; /* Specify a solid border */
+    padding: 5px;
+    margin: 10px;
+    height: 90% !important;
+}
+
+.properties {
+    font-size: medium;
+    color: gray; /* Optional: Change color to differentiate the text */
+    margin-top: 5px; /* Adjust the top margin to bring closer to the value */
+}
+
+.values {
+    font-size: -webkit-xxx-large;
+    font-weight: lighter;
+    margin-bottom: 0; /* Remove bottom margin to align descriptions closely */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Ensure the card body takes up full height */
+    text-align: center; /* Center-align text inside card body */
+}
+
+.reduce_right {
+    padding-right: 0px !important;
+}
+
+.reduce_left {
+    padding-left: 0px !important;
+}
+
+.isWorking {
+    background-color: chartreuse !important;
+    border:1px chartreuse solid !important;
+}
+
+.isDown {
+    background-color: red !important;
+}
+
+.status-badge {
+    float: right;
+    background-color: white;
+    color: green;
+    padding: 2px 5px;
+    border-radius: 5px;
+    font-size: small;
+    font-weight: bold;
+}
+
+.status-badge.down {
+    color: red;
+}
+
+.node{
+    border: none !important;
+}
+
+/* Flexbox container for nodes */
+.nodes-container {
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between nodes */
+    justify-content: center; /* Center the nodes horizontally */
+}
+
+/* Ensure each node takes up equal space and is responsive */
+.node {
+    flex: 1 1 300px; /* Grow to fill space, shrink if needed, and set a minimum width */
+    max-width: 45%; /* Optional: Limit the maximum width to 45% of the container */
+    margin: 10px;
+}
+
+@media (max-width: 768px) {
+    .node {
+        max-width: 100%; /* On smaller screens, nodes take full width */
+    }
+}
+
+a{
+    text-decoration: none !important;
+    font-size: large;
+}

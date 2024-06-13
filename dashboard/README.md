@@ -9,3 +9,10 @@ Currently, two official plugins are available:
 
 Fork this into your code editor
 
+```bash
+cd dashboard
+npm install
+npm run dev
+```
+
+currently we have two components topbar and sidebar to toggle it we have to create routes.

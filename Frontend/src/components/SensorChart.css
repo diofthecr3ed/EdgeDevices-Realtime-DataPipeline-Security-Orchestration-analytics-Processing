@@ -1,8 +1,11 @@
 .chart-container {
   flex: 1;
   margin: 10px;
-  min-width: 200px;
+  min-width: 25vw;
   min-height: 150px;
+  margin-top: 5vh;
+  background-color: #00000029;
+  padding: 1%;  
 }
 
 .charts-wrapper {
@@ -12,9 +15,13 @@
   align-items: center;
 }
 
-.chartHeading {
-  padding-left: 10px;
-  margin-left: 2vw;
-  padding-bottom: 10px;
+
+
+.dataValue{
+  text-align: -webkit-center;
 }
 
+.datas{
+  background-color: #00000029;
+  padding: 1%;
+}

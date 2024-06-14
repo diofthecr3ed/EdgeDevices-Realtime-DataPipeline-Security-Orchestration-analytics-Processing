@@ -33,8 +33,9 @@ const SensorChart = ({ dataKey, label }) => {
           x: {
             type: "time",
             time: {
-              parser: "MM/dd/yyyy HH:mm:ss", // Ensure the date format is parsed correctly
-              tooltipFormat: "ll HH:mm:ss",
+              // Update the parser to match the timestamp format
+              parser: "yyyy-MM-dd HH:mm:ss", // Match the format emitted from the server
+              tooltipFormat: "Pp",
               unit: "second",
               displayFormats: {
                 second: "HH:mm:ss",

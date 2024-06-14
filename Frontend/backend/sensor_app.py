@@ -3,29 +3,43 @@ from flask_socketio import SocketIO
 from threading import Lock
 from datetime import datetime
 import time
-import csv
+import psycopg2
+import logging
 
-# Path to the CSV file
-CSV_FILE_PATH = 'sensor_data.csv'
+# Enable logging
+logging.basicConfig(level=logging.DEBUG)
 
-# Function to read data from the CSV file
-def read_csv_data(file_path):
-    data = []
-    with open(file_path, mode='r') as file:
-        csv_reader = csv.DictReader(file)
-        for row in csv_reader:
-            # Convert necessary fields to their appropriate data types
-            row['temperature'] = float(row['temperature'])
-            row['humidity'] = float(row['humidity'])
-            row['cpu_temperature'] = float(row['cpu_temperature'])
-            row['ram_usage'] = float(row['ram_usage'])
-            row['network_data_sent'] = int(row['network_data_sent'])
-            row['network_data_received'] = int(row['network_data_received'])
-            data.append(row)
-    return data
+# Database connection settings
+DB_HOST = 'localhost'
+DB_PORT = '5432'
+DB_NAME = 'postgres'
+DB_USER = 'postgres'
+DB_PASSWORD = '<password goes here>'
 
-# Load the data from CSV
-data = read_csv_data(CSV_FILE_PATH)
+def fetch_data_from_db():
+    try:
+        conn = psycopg2.connect(
+            host=DB_HOST,
+            port=DB_PORT,
+            database=DB_NAME,
+            user=DB_USER,
+            password=DB_PASSWORD
+        )
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT timestamp, temperature, humidity, cpu_temperature, ram_usage, network_data_sent, network_data_received 
+            FROM data
+        """)
+        records = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return records
+    except Exception as e:
+        logging.error("Error fetching data from database: %s", e)
+        return []
+
+data = fetch_data_from_db()
+logging.debug("Data fetched from DB: %s", data)
 
 thread = None
 thread_lock = Lock()
@@ -35,27 +49,34 @@ app.config['SECRET_KEY'] = 'aadi'
 socketio = SocketIO(app, cors_allowed_origins='*')
 
 def background_thread():
-    print("Sending real sensor values")
+    logging.info("Background thread started")
     for record in data:
-        timestamp = record['timestamp']
-        cpu_temperature = record['cpu_temperature']
-        ram_usage = record['ram_usage']
-        humidity = record['humidity']
-        socketio.emit('updateSensorData', {'timestamp': timestamp, 'cpu_temperature': cpu_temperature, 'ram_usage': ram_usage, 'humidity': humidity})
-        time.sleep(1)  # Simulate the 0.5-second interval between data points
+        timestamp, temperature, humidity, cpu_temperature, ram_usage, network_data_sent, network_data_received = record
+        logging.debug("Emitting data: %s", record)
+        # Convert timestamp to string
+        timestamp_str = timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        socketio.emit('updateSensorData', {
+            'timestamp': timestamp_str,
+            'cpu_temperature': cpu_temperature,
+            'ram_usage': ram_usage,
+            'humidity': humidity
+        })
+        time.sleep(1)  # Simulate the 1-second interval between data points
 
 @socketio.on('connect')
 def connect():
     global thread
-    print('Client connected')
+    logging.info('Client connected')
 
     with thread_lock:
         if thread is None:
+            logging.info("Starting background thread")
             thread = socketio.start_background_task(background_thread)
 
 @socketio.on('disconnect')
 def disconnect():
-    print('Client disconnected', request.sid)
+    logging.info('Client disconnected: %s', request.sid)
 
 if __name__ == '__main__':
+    logging.info("Starting Flask app")
     socketio.run(app)

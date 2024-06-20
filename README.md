@@ -1,7 +1,4 @@
-
-
-![image](https://github.com/guri2198/Smart-and-Sustainble-urban-Mobility-data-pipeline/assets/42201427/95f7d434-392f-41e7-be7d-0a15e71b458a)
-
+![Screenshot 2024-06-20 132127](https://github.com/guri2198/Smart-and-Sustainble-urban-Mobility-data-pipeline/assets/42201427/64255490-deb7-40e8-9790-579fd6f8d58e)
 
 
 ### Fast way to set up kafka cluster 

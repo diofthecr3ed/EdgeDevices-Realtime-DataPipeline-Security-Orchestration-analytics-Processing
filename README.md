@@ -1,7 +1,6 @@
 
 
-
-<img width="854" alt="System-architecture" src="https://github.com/guri2198/Smart-and-Sustainble-urban-Mobility-data-pipeline/assets/42201427/64256f94-a7d5-43db-95ed-791bdbb3c0b7">
+![image](https://github.com/guri2198/Smart-and-Sustainble-urban-Mobility-data-pipeline/assets/42201427/95f7d434-392f-41e7-be7d-0a15e71b458a)
 
 
 

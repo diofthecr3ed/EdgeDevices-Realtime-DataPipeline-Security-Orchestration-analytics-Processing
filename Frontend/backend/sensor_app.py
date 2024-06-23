@@ -14,7 +14,7 @@ DB_HOST = 'localhost'
 DB_PORT = '5432'
 DB_NAME = 'postgres'
 DB_USER = 'postgres'
-DB_PASSWORD = '<password goes here>'
+DB_PASSWORD = 'snowball'
 
 def fetch_data_from_db():
     try:

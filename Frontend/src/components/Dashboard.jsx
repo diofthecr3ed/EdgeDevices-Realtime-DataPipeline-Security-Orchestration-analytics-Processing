@@ -2,6 +2,29 @@ import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import Chart from "chart.js/auto";
 import "chartjs-adapter-date-fns";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import {
+  Container,
+  Grid,
+  Box,
+  Typography,
+  IconButton,
+  Select,
+  MenuItem,
+  Card,
+  CardContent,
+  CardHeader,
+} from "@mui/material";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -9,6 +32,7 @@ const Dashboard = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [vehicleData, setVehicleData] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [hourlyViolationData, setHourlyViolationData] = useState([]);
 
   const streams = [
     {
@@ -26,6 +50,23 @@ const Dashboard = () => {
     "https://archive.factordaily.com/wp-content/uploads/2018/09/Intel-Lead.jpg",
   ];
 
+  const getLineColor = (vehicleType) => {
+    switch (vehicleType) {
+      case "2 Wheeler":
+        return "#FF6384";
+      case "4 Wheeler":
+        return "#36A2EB";
+      case "4+ Wheeler":
+        return "#FFCE56";
+      case "Pedestrian":
+        return "#4BC0C0";
+      case "Emergency Vehicle":
+        return "#9966FF";
+      default:
+        return "#000000"; // Default color
+    }
+  };
+
   const chartRef = useRef(null);
   const socketRef = useRef(null);
   const chartInstance = useRef(null);
@@ -37,12 +78,24 @@ const Dashboard = () => {
     chartInstance.current = new Chart(ctx, {
       type: "bar",
       data: {
-        labels: ["2 Wheeler", "4 Wheeler", "4+ Wheeler"],
+        labels: [
+          "2 Wheeler",
+          "4 Wheeler",
+          "4+ Wheeler",
+          "Pedestrian",
+          "Emergency Vehicle",
+        ],
         datasets: [
           {
             label: "Number of Vehicles",
-            data: [0, 0, 0], // Sample data, replace with actual data from WebSocket
-            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+            data: [0, 0, 0, 0, 0], // Sample data, replace with actual data from WebSocket
+            backgroundColor: [
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56",
+              "#4BC0C0",
+              "#9966FF",
+            ],
           },
         ],
       },
@@ -97,9 +150,12 @@ const Dashboard = () => {
 
       // Update tableData state
       setTableData(data);
+    });
 
-      // Alternatively, if you want to append data:
-      // setTableData((prevData) => [...prevData, ...data]);
+    socketRef.current.on("updateHourlyViolationData", (data) => {
+      console.log("Received hourly violation data:", data); // logging
+      // Update hourlyViolationData state
+      setHourlyViolationData(data);
     });
 
     return () => {
@@ -131,83 +187,188 @@ const Dashboard = () => {
     setCurrentStreamIndex(Number(selectedIndex));
   };
 
+  // Group data by vehicle type for the line chart
+  const groupedData = hourlyViolationData.reduce(
+    (acc, [vehicleType, hour, count]) => {
+      if (!acc[vehicleType]) {
+        acc[vehicleType] = Array(24).fill(0);
+      }
+      acc[vehicleType][Math.floor(hour)] = count;
+      return acc;
+    },
+    {}
+  );
+
+  const lineChartData = Object.entries(groupedData).map(
+    ([vehicleType, counts]) => ({
+      name: vehicleType,
+      data: counts.map((count, hour) => ({
+        hour,
+        count,
+      })),
+    })
+  );
+
   return (
-    <div className="dashboard">
-      <div className="grid-item">
-        <div className="header">
-          <div className="title">Node Livestream</div>
-          <select
-            className="dropdown"
-            value={currentStreamIndex}
-            onChange={handleDropdownChange}
-          >
-            {streams.map((stream, index) => (
-              <option key={index} value={index}>
-                {stream.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="carousel">
-          <button className="prev" onClick={() => handleStreamChange("prev")}>
-            {"<"}
-          </button>
-          <iframe
-            src={streams[currentStreamIndex].url}
-            title="Livestream"
-            width="100%"
-            height="100%"
-          ></iframe>
-          <button className="next" onClick={() => handleStreamChange("next")}>
-            {">"}
-          </button>
-        </div>
-      </div>
-      <div className="grid-item">
-        <div className="title title2">Vehicle Snapshots</div>
-        <div className="carousel">
-          <button className="prev" onClick={() => handleImageChange("prev")}>
-            {"<"}
-          </button>
-          <img
-            src={images[currentImageIndex]}
-            alt="Carousel"
-            width="100%"
-            height="100%"
-          />
-          <button className="next" onClick={() => handleImageChange("next")}>
-            {">"}
-          </button>
-        </div>
-      </div>
-      <div className="grid-item" id="bgcontainer">
-        <div className="title title2">Traffic Info</div>
-        <canvas id="bargraph" ref={chartRef}></canvas>
-      </div>
-      <div className="grid-item" id="violations">
-        <div className="title title2">Traffic Violations</div>
-        <table>
-          <thead>
-            <tr>
-              <th>S.No.</th>
-              <th>Number Plate</th>
-              <th>Vehicle Type</th>
-              <th>Violation Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableData.map((row, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{row[0]}</td> {/* Accessing number_plate */}
-                <td>{row[1]}</td> {/* Accessing vehicle_type */}
-                <td>{row[2]}</td> {/* Accessing violation_type */}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <Container maxWidth="lg">
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader
+              title="Camera Streams"
+              action={
+                <Select
+                  value={currentStreamIndex}
+                  onChange={handleDropdownChange}
+                >
+                  {streams.map((stream, index) => (
+                    <MenuItem key={index} value={index}>
+                      {stream.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              }
+            />
+            <CardContent>
+              <Box display="flex" alignItems="center">
+                <IconButton onClick={() => handleStreamChange("prev")}>
+                  <ArrowBack />
+                </IconButton>
+                <iframe
+                  title="stream"
+                  src={streams[currentStreamIndex].url}
+                  frameBorder="0"
+                  allowFullScreen
+                  style={{ width: "100%", height: "300px" }}
+                />
+                <IconButton onClick={() => handleStreamChange("next")}>
+                  <ArrowForward />
+                </IconButton>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader title="Live Images" />
+            <CardContent>
+              <Box display="flex" alignItems="center">
+                <IconButton onClick={() => handleImageChange("prev")}>
+                  <ArrowBack />
+                </IconButton>
+                <img
+                  src={images[currentImageIndex]}
+                  alt="Live"
+                  style={{ width: "100%", height: "300px" }}
+                />
+                <IconButton onClick={() => handleImageChange("next")}>
+                  <ArrowForward />
+                </IconButton>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardHeader title="Vehicle Count" />
+            <CardContent>
+              <canvas id="bargraph" ref={chartRef} />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardHeader title="Hourly Traffic Violations" />
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart
+                  data={Array.from({ length: 24 }, (_, hour) => {
+                    const hourData = { hour };
+                    lineChartData.forEach(({ name, data }) => {
+                      hourData[name] = data[hour].count;
+                    });
+                    return hourData;
+                  })}
+                  margin={{ top: 5, right: 30, left: 10, bottom: 5 }} // Reduced left margin
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="hour"
+                    label={{
+                      value: "Hour of the Day",
+                      position: "insideBottomRight",
+                      offset: -10,
+                      fontSize: 14,
+                    }}
+                    tick={{ fill: "#ffffff" }}
+                    fontSize={14}
+                  />
+                  <YAxis
+                    label={{
+                      value: "Count",
+                      angle: -90,
+                      position: "insideLeft",
+                      fontSize: 14,
+                      marginBottom: 100,
+                    }}
+                    fontSize={14}
+                    tick={{ fill: "#ffffff" }}
+                  />
+                  <Tooltip contentStyle={{ fontSize: 12 }} />{" "}
+                  {/* Adjust font size in tooltip */}
+                  <Legend wrapperStyle={{ fontSize: 12, marginTop: 30 }} />{" "}
+                  {/* Adjust font size in legend */}
+                  {lineChartData.map(({ name }) => (
+                    <Line
+                      key={name}
+                      type="monotone"
+                      dataKey={name}
+                      stroke={getLineColor(name)}
+                      activeDot={{ r: 8 }}
+                    />
+                  ))}
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardHeader title="Traffic Violations" />
+            <CardContent>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  maxHeight: "300px",
+                }}
+              >
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Number Plate</th>
+                      <th>Vehicle Type</th>
+                      <th>Violation Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableData.map(
+                      ([numberPlate, vehicleType, violationType], index) => (
+                        <tr key={index}>
+                          <td>{numberPlate}</td>
+                          <td>{vehicleType}</td>
+                          <td>{violationType}</td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

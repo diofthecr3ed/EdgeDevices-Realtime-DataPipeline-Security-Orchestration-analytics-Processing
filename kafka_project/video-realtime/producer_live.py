@@ -7,7 +7,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 
 def send_video_frames(producer, topic, video_source=0, fps=30):
-    cap = cv2.VideoCapture(video_source)
+    cap = cv2.VideoCapture("http://homeassistant.local:9081/")
     if not cap.isOpened():
         logging.error("Error: Could not open video source.")
         return
@@ -57,7 +57,7 @@ def create_producer(kafka_servers):
             time.sleep(5)  # Wait before retrying
 
 if __name__ == "__main__":
-    kafka_servers = '10.1.16.103:9092'
+    kafka_servers = '10.1.18.51:9092'
     topic = 'video_frames'
 
     while True:

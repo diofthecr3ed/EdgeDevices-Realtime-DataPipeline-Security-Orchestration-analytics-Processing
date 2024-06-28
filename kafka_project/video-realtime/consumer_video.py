@@ -4,7 +4,7 @@ import numpy as np
 
 consumer = KafkaConsumer(
     'video_frames',
-    bootstrap_servers=['10.1.16.103:9092'],
+    bootstrap_servers=['10.1.18.51:9092'],
     auto_offset_reset='latest',
     enable_auto_commit=True,
     group_id='video-consumers'

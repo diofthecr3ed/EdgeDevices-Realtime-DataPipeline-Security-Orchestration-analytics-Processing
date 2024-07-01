@@ -1,0 +1,131 @@
+.dashboard {
+    padding: 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 100%;
+    width: 100%;
+    gap: 7%;
+    max-height: 100vh;
+  }
+  
+  .grid-item {
+    border-radius: 10px;
+    border: 1px solid #8080802e;
+    position: relative;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .title {
+    font-size: small;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .dropdown {
+    font-size: small;
+    padding: 5px;
+  }
+  
+  .carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: inherit;
+    height: -webkit-fill-available;
+    position: relative;
+  }
+  
+  .carousel button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 2em;
+    cursor: pointer;
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-bottom: 10px;
+  }
+  
+  .carousel button.prev {
+    left: 10px;
+  }
+  
+  .carousel button.next {
+    right: 10px;
+  }
+  
+  .carousel iframe,
+  .carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  #bargraph {
+    padding: 10px;
+    margin-top: 0px;
+  }
+  
+  #bgcontainer {
+    align-content: center;
+  }
+  
+  /* Table Styling */
+  table {
+    font-size: small;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+  }
+  
+  th,
+  td {
+    padding: 5px;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  th {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  tr {
+    background-color: #f2f2f2;
+  }
+  
+  tr:hover {
+    background-color: #ddd;
+  }
+  
+  tbody tr td {
+    color: #333;
+  }
+  
+  /* Responsive Table */
+  @media (max-width: 600px) {
+    table {
+      width: 100%;
+      display: block;
+      overflow-x: auto;
+    }
+  }
+  
+  #violations {
+    overflow-y: scroll !important;
+  }
+  
+  .title2{
+    padding: 10px;
+  }

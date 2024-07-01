@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Kafka consumer configuration
-bootstrap_servers = '10.1.17.100:9092'  # Replace with your actual Kafka bootstrap server address
+bootstrap_servers = '10.1.33.165:9092'  # Replace with your actual Kafka bootstrap server address
 group_id = 'postgres'
 auto_offset_reset = 'earliest'
 kafka_topic = "mqtt-data"

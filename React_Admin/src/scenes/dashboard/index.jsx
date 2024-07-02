@@ -1,9 +1,10 @@
 import React from 'react'
+import LiveChart from './chart'
 
 const index = () => {
   return (
     <div>
-      index
+      <LiveChart />
     </div>
   )
 }

@@ -1,29 +1,48 @@
-import React , {useState} from "react";
-import {AgCharts} from "ag-charts-react"
-import getData from "./data";
+import React, { useEffect, useState } from "react";
+import  {AgCharts}  from "ag-charts-react";
+import createSocketConnection from "./data";
 
 const LiveChart = () => {
-    const [options,setOptions] = useState({
+    const [chartData, setChartData] = useState([]);
+
+    useEffect(() => {
+        const socket = createSocketConnection(setChartData);
+        
+        // Cleanup on component unmount
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+
+    const [options, setOptions] = useState({
         title: {
-            text : "IOT DATA",
+            text: "IOT DATA",
         },
-        data: getData(),
+        data: chartData,
         series: [
             {
-                type : "line",
-                xKey : "",
-                yKey : "",
-                yName : "",
+                type: "line",
+                xKey: "ID",
+                yKey: "TEMPERATURE",
+                yName: "Temperature",
             },
             {
                 type: "line",
-                xKey: "",
-                yKey: "",
-                yName: "",
+                xKey: "ID",
+                yKey: "RAM_USAGE",
+                yName: "RAM Usage",
             },
         ],
     });
 
-    return <AgCharts options={options} />
+    useEffect(() => {
+        setOptions((prevOptions) => ({
+            ...prevOptions,
+            data: chartData,
+        }));
+    }, [chartData]);
+
+    return <AgCharts options={options} />;
 }
-export default LiveChart
+
+export default LiveChart;

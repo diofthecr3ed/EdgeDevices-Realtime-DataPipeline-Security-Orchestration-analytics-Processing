@@ -1,14 +1,14 @@
-const express = require('express');
-const mysql = require('mysql');
-const http = require('http');
-const cors = require('cors');
-const { Server } = require('socket.io');
+import express from 'express';
+import mysql from 'mysql';
+import http from 'http';
+import cors from 'cors';
+import { Server } from 'socket.io';
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://10.1.32.233:5100', // Allow your frontend origin
+    origin: 'http://10.1.32.104:5100', // Allow your frontend origin
     methods: ['GET', 'POST'],
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   }
@@ -21,6 +21,8 @@ const db1 = mysql.createPool({
   database: 'main_iot_data'
 });
 
+let currentId = 100; // Start from ID 100
+
 const emitData = () => {
   db1.getConnection((err, connection) => {
     if (err) {
@@ -29,7 +31,8 @@ const emitData = () => {
     }
     console.log('Connected to the database');
     
-    db1.query('SELECT * FROM nodedata ORDER BY id DESC LIMIT 2', (err, result) => {
+    const query = `SELECT * FROM nodedata WHERE id <= ? ORDER BY id DESC LIMIT 10`;
+    db1.query(query, [currentId], (err, result) => {
       connection.release();
       if (err) {
         console.error('Database query error:', err);
@@ -38,12 +41,16 @@ const emitData = () => {
       if (result.length > 0) {
         console.log('Emitting data:', result);
         io.emit('update', { systemData: result });
+        currentId -= 10; // Decrement by 2 for the next fetch
+      } else {
+        console.log('No more data to fetch.');
+        clearInterval(emitInterval); // Stop emitting if no more data
       }
     });
   });
 };
 
-setInterval(emitData, 7000); // Emit data every 7 seconds (7000 milliseconds)
+const emitInterval = setInterval(emitData, 7000); // Emit data every 7 seconds (7000 milliseconds)
 
 io.on('connection', (socket) => {
   console.log('A user connected');

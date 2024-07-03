@@ -14,7 +14,7 @@ function App() {
   const location = useLocation();
 
   // Determine if the current path is "overview" or "dashboard"
-  const isCenterAlign = location.pathname === '/' || location.pathname === '/overview';
+  const isCenterAlign = location.pathname === '/overview';
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -28,11 +28,11 @@ function App() {
             <Topbar />
             <div className={isCenterAlign ? 'center-align' : ''}>
               <Routes>
-                <Route path="/" element={<Dashboard />} />
                 <Route path="/overview" element={<Overview />} />
               </Routes>
             </div>
             <Routes>
+              <Route path="/" element={<Dashboard />} />
               <Route path="/life-sucks" element={<h1>Life Suchs</h1>} />
               <Route path="/iotNode" element={<IotNodeAlt />} />
             </Routes>

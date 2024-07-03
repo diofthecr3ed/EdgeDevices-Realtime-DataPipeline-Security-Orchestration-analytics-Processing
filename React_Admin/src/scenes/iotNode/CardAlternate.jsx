@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import './card.css';
 
 // Initialize the socket connection
-const socket = io("http://10.1.32.233:3000", {
+const socket = io("http://10.1.32.104:3000", {
   withCredentials: true, // Allow credentials (cookies, authorization headers, etc.)
 }); // Replace with your actual server URL
 

@@ -23,11 +23,12 @@ const Dashboard = () => {
                         ))} */}
                     </select>
                 </div>
-                <div>
+                <div className='iframe-container'>
                     <iframe
                         src={`http://${ip}:5000/video_feed`}
                         // frameBorder="0"
                         title="Live Video Feed"
+                        className='video-iframe'
                     ></iframe>
                 </div>
             </div>
@@ -38,8 +39,15 @@ const Dashboard = () => {
                     <select></select>
                 </div>
                 <iframe>
-                    
+
                 </iframe>
+            </div>
+            <div className='item2'>
+                <div className='top2'>
+                    <div className='header'>Number Of Vehicles</div>
+                    <select></select>
+                </div>
+
             </div>
         </div>
     )

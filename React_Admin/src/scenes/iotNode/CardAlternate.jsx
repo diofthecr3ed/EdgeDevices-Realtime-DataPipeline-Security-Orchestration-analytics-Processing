@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import Button from '@mui/material/Button';
 import './card.css';
+import { useNavigate } from 'react-router-dom';
+
 
 // Initialize the socket connection
 const socket = io("http://10.1.32.104:3000", {
@@ -10,17 +12,19 @@ const socket = io("http://10.1.32.104:3000", {
 
 export default function ACardInvertedColors({ ip }) {
   const [data, setData] = useState({ nodeStat: 1, temp: 70, ramUsage: 40 });
+  const navigate = useNavigate();
 
+  // Event listener for data updates from the server
   useEffect(() => {
-    // Event listener for data updates from the server
     socket.on('update', (newData) => {
       console.log('Received data:', newData); // Log the received data
 
       // Check if newData and newData.systemData exist and contain the expected values
+      // Assuming nodeStat is always 1 for simplicity
       if (newData && newData.systemData && newData.systemData.length > 0) {
         const { ram_usage, cpu_temp } = newData.systemData[0]; // Access the latest entry
         setData({
-          nodeStat: 1, // Assuming nodeStat is always 1 for simplicity
+          nodeStat: 1, 
           temp: cpu_temp,
           ramUsage: ram_usage,
         });
@@ -35,6 +39,10 @@ export default function ACardInvertedColors({ ip }) {
 
   const { nodeStat, temp, ramUsage } = data;
   const nodeStatus = nodeStat ? "Online" : "Offline";
+
+  const handleViewDetails = () => {
+    navigate('/overview', { state: { ip } }); // Navigate to Overview with the IP state
+  };
 
   return (
     <div className="container">

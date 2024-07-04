@@ -68,7 +68,7 @@ export default function ACardInvertedColors({ ip }) {
           <p>Node Status: {nodeStatus}</p>
         </div>
         <div className="button-wrapper">
-          <Button variant="contained" size="small" className="custom-button" on>
+          <Button variant="contained" size="small" className="custom-button" onClick={handleViewDetails}>
             Detailed view
           </Button>
           <a href={`http://${ip}/iotnode`} target="_blank" rel="noopener noreferrer">

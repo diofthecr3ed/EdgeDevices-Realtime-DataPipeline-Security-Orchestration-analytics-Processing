@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import Button from '@mui/material/Button';
 import './card.css';
+import { useNavigate } from 'react-router-dom';
 
 // Initialize the socket connection
 const socket = io("http://10.1.32.104:3000", {
@@ -10,6 +11,7 @@ const socket = io("http://10.1.32.104:3000", {
 
 export default function ACardInvertedColors({ ip }) {
   const [data, setData] = useState({ nodeStat: 1, temp: 70, ramUsage: 40 });
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Event listener for data updates from the server
@@ -36,6 +38,10 @@ export default function ACardInvertedColors({ ip }) {
   const { nodeStat, temp, ramUsage } = data;
   const nodeStatus = nodeStat ? "Online" : "Offline";
 
+  const handleViewDetails = () => {
+    navigate('/overview', { state: { ip } }); // Navigate to Overview with the IP state
+  };
+
   return (
     <div className="container">
       <div className="wrapper">
@@ -60,7 +66,7 @@ export default function ACardInvertedColors({ ip }) {
           <p>Node Status: {nodeStatus}</p>
         </div>
         <div className="button-wrapper">
-          <Button variant="contained" size="small" className="custom-button" on>
+          <Button variant="contained" size="small" className="custom-button" onClick={handleViewDetails}>
             Detailed view
           </Button>
           <a href={`http://${ip}/iotnode`} target="_blank" rel="noopener noreferrer">

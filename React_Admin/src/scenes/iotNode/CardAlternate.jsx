@@ -4,13 +4,12 @@ import Button from '@mui/material/Button';
 import './card.css';
 import { useNavigate } from 'react-router-dom';
 
-
 // Initialize the socket connection
 const socket = io("http://10.1.32.104:3000", {
   withCredentials: true, // Allow credentials (cookies, authorization headers, etc.)
 }); // Replace with your actual server URL
 
-export default function ACardInvertedColors({ ip }) {
+export default function ACardInvertedColors({ ip, url, port }) {
   const [data, setData] = useState({ nodeStat: 1, temp: 70, ramUsage: 40 });
   const navigate = useNavigate();
 
@@ -41,15 +40,18 @@ export default function ACardInvertedColors({ ip }) {
   const nodeStatus = nodeStat ? "Online" : "Offline";
 
   const handleViewDetails = () => {
-    navigate('/overview', { state: { ip } }); // Navigate to Overview with the IP state
+    navigate('/overview', { state: { ip, url, port } }); // Navigate to Overview with the IP, URL, and port state
   };
+
+  const videoFeedSrc = ip ? `http://${ip}:${port}/video_feed` : url;
+  const nodeLink = ip ? `http://${ip}/iotnode` : url;
 
   return (
     <div className="container">
       <div className="wrapper">
         <iframe
           className="banner-iframe"
-          src={`http://${ip}:5000/video_feed`}
+          src={videoFeedSrc}
           allow="autoplay"
           title="Live Video Feed"
         ></iframe>
@@ -64,17 +66,17 @@ export default function ACardInvertedColors({ ip }) {
           </div>
         </div>
         <div className="node-info">
-          <p>IP Address: {ip}</p>
+          {ip && <p>IP Address: {ip}</p>}
           <p>Node Status: {nodeStatus}</p>
         </div>
         <div className="button-wrapper">
           <Button variant="contained" size="small" className="custom-button" onClick={handleViewDetails}>
             Detailed view
           </Button>
-          <a href={`http://${ip}/iotnode`} target="_blank" rel="noopener noreferrer">
-          <Button variant="contained" size="small" className="custom-button">
-            Access Node
-          </Button>
+          <a href={nodeLink} target="_blank" rel="noopener noreferrer">
+            <Button variant="contained" size="small" className="custom-button">
+              Access Node
+            </Button>
           </a>
         </div>
       </div>

@@ -1,16 +1,10 @@
-import React, { useState,useEffect } from 'react';
-import { Box, AppBar, Toolbar, Typography, Button, IconButton, useTheme } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import React, { useState, useEffect } from 'react';
+import { Box, Button } from '@mui/material';
 import ACardInvertedColors from './CardAlternate.jsx';
 import IpDialog from './IpDialogue.jsx'; // Ensure the correct import path
-import { useContext } from "react";
-import { ColorModeContext, tokens } from "../../theme";
-import './IotNode.css'
+import './IotNode.css';
+
 function IotNodeAlt() {
-
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
   const [cards, setCards] = useState(() => {
     const savedCards = localStorage.getItem('cards');
     if (savedCards) {
@@ -27,6 +21,9 @@ function IotNodeAlt() {
 
   const [open, setOpen] = useState(false);
   const [ip, setIp] = useState('');
+  const [url, setUrl] = useState('');
+  const [port, setPort] = useState('');
+  const [isCustomUrl, setIsCustomUrl] = useState(false);
 
   // Save cards to localStorage whenever they are updated
   useEffect(() => {
@@ -45,11 +42,22 @@ function IotNodeAlt() {
   const handleClose = () => {
     setOpen(false);
     setIp('');
+    setUrl('');
+    setPort('');
+    setIsCustomUrl(false);
   };
 
   const handleAddCard = () => {
-    setCards([...cards, { id: cards.length, ip }]);
+    if (isCustomUrl) {
+      setCards([...cards, { id: cards.length, url }]);
+    } else {
+      setCards([...cards, { id: cards.length, ip, port }]);
+    }
     handleClose();
+  };
+
+  const handleAddUrl = () => {
+    setIsCustomUrl(true);
   };
 
   const handleRemoveCard = (index) => {
@@ -63,7 +71,7 @@ function IotNodeAlt() {
           <h2>Node Monitoring Dashboard</h2>
         </div>
         <div className='topbar-right'>
-          <button class="button-28" role="button" onClick={handleClickOpen}>Add Card</button>
+          <button className="button-28" role="button" onClick={handleClickOpen}>Add Card</button>
         </div>
       </div>
       <Box 
@@ -82,7 +90,7 @@ function IotNodeAlt() {
               minWidth: '250px' 
             }}
           >
-            <ACardInvertedColors ip={card.ip} />
+            <ACardInvertedColors ip={card.ip} url={card.url} port={card.port} />
             <Button 
               variant="contained" 
               color="secondary" 
@@ -99,10 +107,16 @@ function IotNodeAlt() {
         handleClose={handleClose}
         ip={ip}
         setIp={setIp}
+        url={url}
+        setUrl={setUrl}
+        port={port}
+        setPort={setPort}
+        isCustomUrl={isCustomUrl}
         handleAddCard={handleAddCard}
+        handleAddUrl={handleAddUrl}
       />
     </div>
   );
 }
 
-export default IotNodeAlt
+export default IotNodeAlt;

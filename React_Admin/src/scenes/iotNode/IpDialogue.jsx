@@ -17,7 +17,7 @@ function IpDialog({ open, handleClose, ip, setIp, url, setUrl, port, setPort, ha
       <DialogTitle>{isCustomUrl ? 'Add Custom URL' : 'Add IP Address'}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {isCustomUrl ? 'Please enter the custom URL.' : 'Please enter the IP address, custom URL, and port for the new node.'}
+          {isCustomUrl ? 'Please enter the custom URL.' : 'Please enter the IP address and port for the new node.'}
         </DialogContentText>
         {isCustomUrl ? (
           <TextField

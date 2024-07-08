@@ -23,7 +23,7 @@ export default function ACardInvertedColors({ ip, url, port }) {
       if (newData && newData.systemData && newData.systemData.length > 0) {
         const { ram_usage, cpu_temp } = newData.systemData[0]; // Access the latest entry
         setData({
-          nodeStat: 1, 
+          nodeStat: 1,
           temp: cpu_temp,
           ramUsage: ram_usage,
         });
@@ -66,7 +66,7 @@ export default function ACardInvertedColors({ ip, url, port }) {
           </div>
         </div>
         <div className="node-info">
-          {ip && <p>IP Address: {ip}</p>}
+          {url ? <p>Custom URL: {url}</p> : <p>IP Address: {ip}</p>}
           <p>Node Status: {nodeStatus}</p>
         </div>
         <div className="button-wrapper">

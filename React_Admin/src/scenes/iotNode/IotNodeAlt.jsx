@@ -23,9 +23,7 @@ function IotNodeAlt() {
   const [ip, setIp] = useState('');
   const [url, setUrl] = useState('');
   const [port, setPort] = useState('');
-  const [isCustomUrl, setIsCustomUrl] = useState(false);
 
-  // Save cards to localStorage whenever they are updated
   useEffect(() => {
     try {
       localStorage.setItem('cards', JSON.stringify(cards));
@@ -44,20 +42,15 @@ function IotNodeAlt() {
     setIp('');
     setUrl('');
     setPort('');
-    setIsCustomUrl(false);
   };
 
   const handleAddCard = () => {
-    if (isCustomUrl) {
+    if (url) {
       setCards([...cards, { id: cards.length, url }]);
     } else {
       setCards([...cards, { id: cards.length, ip, port }]);
     }
     handleClose();
-  };
-
-  const handleAddUrl = () => {
-    setIsCustomUrl(true);
   };
 
   const handleRemoveCard = (index) => {
@@ -74,26 +67,26 @@ function IotNodeAlt() {
           <button className="button-28" role="button" onClick={handleClickOpen}>Add Card</button>
         </div>
       </div>
-      <Box 
-        display="flex" 
-        justifyContent="space-evenly" 
-        alignItems="center" 
+      <Box
+        display="flex"
+        justifyContent="space-evenly"
+        alignItems="center"
         sx={{ mt: 2, flexWrap: 'wrap' }}
       >
         {cards.map((card, index) => (
-          <Box 
-            key={index} 
-            sx={{ 
-              width: '30%', 
-              position: 'relative', 
-              m: 1, 
-              minWidth: '250px' 
+          <Box
+            key={index}
+            sx={{
+              width: '30%',
+              position: 'relative',
+              m: 1,
+              minWidth: '250px'
             }}
           >
             <ACardInvertedColors ip={card.ip} url={card.url} port={card.port} />
-            <Button 
-              variant="contained" 
-              color="secondary" 
+            <Button
+              variant="contained"
+              color="secondary"
               onClick={() => handleRemoveCard(index)}
               sx={{ position: 'absolute', top: 8, right: 8 }}
             >
@@ -111,9 +104,7 @@ function IotNodeAlt() {
         setUrl={setUrl}
         port={port}
         setPort={setPort}
-        isCustomUrl={isCustomUrl}
         handleAddCard={handleAddCard}
-        handleAddUrl={handleAddUrl}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 from kafka import KafkaConsumer
-from cassandra.cluster import Cluster
+import psycopg2
+from psycopg2.extras import execute_values
 from uuid import uuid4
 import json
 import logging
@@ -10,8 +11,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Kafka consumer configuration
-bootstrap_servers = '10.1.16.103:9092'  # Replace with your actual Kafka bootstrap server address
-group_id = 'cassandra'
+bootstrap_servers = '10.1.33.165:9092'  # Replace with your actual Kafka bootstrap server address
+group_id = 'postgres'
 auto_offset_reset = 'earliest'
 kafka_topic = "mqtt-data"
 
@@ -19,6 +20,14 @@ kafka_topic = "mqtt-data"
 retry_attempts = 5
 retry_wait = 5
 
+# PostgreSQL connection configuration
+postgres_config = {
+    'dbname': 'mydatabase',  # Replace with your database name
+    'user': 'myuser',        # Replace with your database user
+    'password': 'mypassword',# Replace with your database password
+    'host': 'localhost',     # Replace with your PostgreSQL server address
+    'port': '5432'           # Replace with your PostgreSQL server port
+}
 
 @retry(stop=stop_after_attempt(retry_attempts), wait=wait_fixed(retry_wait))
 def create_kafka_consumer():
@@ -32,18 +41,18 @@ def create_kafka_consumer():
 
 
 @retry(stop=stop_after_attempt(retry_attempts), wait=wait_fixed(retry_wait))
-def create_cassandra_session():
-    cluster = Cluster(['127.0.0.1'])  
-    return cluster, cluster.connect('my_keyspace')
+def create_postgres_connection():
+    conn = psycopg2.connect(**postgres_config)
+    conn.autocommit = True
+    return conn, conn.cursor()
 
 
-def process_message(session, query, kafka_message):
+def process_message(cursor, query, kafka_message):
     try:
         # Process the Kafka message
-        # kafka_message = message.value.get("payload")
         id = uuid4()
-        cassandra_record = {
-            'id': id,
+        postgres_record = {
+            'id': str(id),
             'cpu_temperature': kafka_message.get('cpu_temperature'),
             'ram_usage_percent': kafka_message.get('ram_usage_percent')
         }
@@ -51,9 +60,9 @@ def process_message(session, query, kafka_message):
         # Log the received message
         logger.info(f"Received message: {kafka_message}")
 
-        # Insert the data into Cassandra
-        session.execute(query, (cassandra_record['id'], cassandra_record['cpu_temperature'], cassandra_record['ram_usage_percent']))
-        logger.info(f"Inserted record: {cassandra_record}")
+        # Insert the data into PostgreSQL
+        cursor.execute(query, (postgres_record['id'], postgres_record['cpu_temperature'], postgres_record['ram_usage_percent']))
+        logger.info(f"Inserted record: {postgres_record}")
 
     except Exception as e:
         logger.error(f"Error processing message: {e}")
@@ -61,28 +70,28 @@ def process_message(session, query, kafka_message):
 
 
 @retry(stop=stop_after_attempt(retry_attempts), wait=wait_fixed(retry_wait))
-def consume_messages(consumer, session, query):
+def consume_messages(consumer, cursor, query):
     for message in consumer:
         kafka_message = message.value.get("payload")
-        process_message(session, query, kafka_message)
+        process_message(cursor, query, kafka_message)
+
 
 def main():
     # Create Kafka consumer
     consumer = create_kafka_consumer()
     logger.info("Connected to Kafka broker successfully.")
 
-    # Create Cassandra session
-    cluster, session  = create_cassandra_session()
-    logger.info("Connected to Cassandra cluster successfully.")
+    # Create PostgreSQL connection
+    conn, cursor = create_postgres_connection()
+    logger.info("Connected to PostgreSQL database successfully.")
 
     try:
-
-        # Prepare Cassandra insert query
-        query = session.prepare("INSERT INTO my_table (id, cpu_temperature, ram_usage_percent) VALUES (?, ?, ?)")
+        # Prepare PostgreSQL insert query
+        query = "INSERT INTO my_table (id, cpu_temperature, ram_usage_percent) VALUES (%s, %s, %s)"
 
         while True:
             try:
-                consume_messages(consumer, session, query)
+                consume_messages(consumer, cursor, query)
             except Exception as e:
                 logger.error(f"Error during message consumption: {e}")
 
@@ -92,9 +101,11 @@ def main():
     finally:
         try:
             consumer.close()
-            cluster.shutdown()
+            cursor.close()
+            conn.close()
         except Exception as e:
             logger.error(f"Error closing resources: {e}")
+
 
 if __name__ == "__main__":
     main()

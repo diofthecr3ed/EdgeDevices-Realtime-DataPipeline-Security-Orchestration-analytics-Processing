@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 # InfluxDB connection details from environment variables
 url = os.getenv("INFLUXDB_URL", "http://influxdb:8086")
-token = os.getenv("INFLUXDB_TOKEN", "XdDgvjQXTymljILun5Ellh3iAmCUv2KStpBK4qSpnS13Sw0LIAw-3UBPcFpB9x7HOfxoXvY1ZEEVtJrDHpd-bw==")
+token = os.getenv("INFLUXDB_TOKEN", "_dZIzLAWBQr9XAb49X_tUeT_SBQkzBwQVtVwQXczdyLRIM0dDor_k-Ta1obKqzvsJS-KKsHk5TNl88tuRuKQpw==")
 org = os.getenv("INFLUXDB_ORG", "my-org")
 bucket = os.getenv("INFLUXDB_BUCKET", "iot_data")
 

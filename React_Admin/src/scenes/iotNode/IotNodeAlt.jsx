@@ -1,16 +1,10 @@
-import React, { useState,useEffect } from 'react';
-import { Box, AppBar, Toolbar, Typography, Button, IconButton, useTheme } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import React, { useState, useEffect } from 'react';
+import { Box, Button } from '@mui/material';
 import ACardInvertedColors from './CardAlternate.jsx';
 import IpDialog from './IpDialogue.jsx'; // Ensure the correct import path
-import { useContext } from "react";
-import { ColorModeContext, tokens } from "../../theme";
-import './IotNode.css'
+import './IotNode.css';
+
 function IotNodeAlt() {
-
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
   const [cards, setCards] = useState(() => {
     const savedCards = localStorage.getItem('cards');
     if (savedCards) {
@@ -27,8 +21,9 @@ function IotNodeAlt() {
 
   const [open, setOpen] = useState(false);
   const [ip, setIp] = useState('');
+  const [url, setUrl] = useState('');
+  const [port, setPort] = useState('');
 
-  // Save cards to localStorage whenever they are updated
   useEffect(() => {
     try {
       localStorage.setItem('cards', JSON.stringify(cards));
@@ -45,10 +40,16 @@ function IotNodeAlt() {
   const handleClose = () => {
     setOpen(false);
     setIp('');
+    setUrl('');
+    setPort('');
   };
 
   const handleAddCard = () => {
-    setCards([...cards, { id: cards.length, ip }]);
+    if (url) {
+      setCards([...cards, { id: cards.length, url }]);
+    } else {
+      setCards([...cards, { id: cards.length, ip, port }]);
+    }
     handleClose();
   };
 
@@ -63,29 +64,29 @@ function IotNodeAlt() {
           <h2>Node Monitoring Dashboard</h2>
         </div>
         <div className='topbar-right'>
-          <button class="button-28" role="button" onClick={handleClickOpen}>Add Card</button>
+          <button className="button-28" role="button" onClick={handleClickOpen}>Add Card</button>
         </div>
       </div>
-      <Box 
-        display="flex" 
-        justifyContent="space-evenly" 
-        alignItems="center" 
+      <Box
+        display="flex"
+        justifyContent="space-evenly"
+        alignItems="center"
         sx={{ mt: 2, flexWrap: 'wrap' }}
       >
         {cards.map((card, index) => (
-          <Box 
-            key={index} 
-            sx={{ 
-              width: '30%', 
-              position: 'relative', 
-              m: 1, 
-              minWidth: '250px' 
+          <Box
+            key={index}
+            sx={{
+              width: '30%',
+              position: 'relative',
+              m: 1,
+              minWidth: '250px'
             }}
           >
-            <ACardInvertedColors ip={card.ip} />
-            <Button 
-              variant="contained" 
-              color="secondary" 
+            <ACardInvertedColors ip={card.ip} url={card.url} port={card.port} />
+            <Button
+              variant="contained"
+              color="secondary"
               onClick={() => handleRemoveCard(index)}
               sx={{ position: 'absolute', top: 8, right: 8 }}
             >
@@ -99,10 +100,14 @@ function IotNodeAlt() {
         handleClose={handleClose}
         ip={ip}
         setIp={setIp}
+        url={url}
+        setUrl={setUrl}
+        port={port}
+        setPort={setPort}
         handleAddCard={handleAddCard}
       />
     </div>
   );
 }
 
-export default IotNodeAlt
+export default IotNodeAlt;

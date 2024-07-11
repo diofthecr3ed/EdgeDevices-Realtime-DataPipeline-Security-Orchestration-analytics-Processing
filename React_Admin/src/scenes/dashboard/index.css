@@ -1,6 +1,92 @@
-.iotData {
-    width: 500px;
-    height: 310px;
-    margin-top: 20px;
-    margin-left: 20px;
+.home {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr; /* Two equal height rows */
+    gap: 20px;
+    background-color: #141b2d;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    height: 100vh; /* Ensure the home container takes the full viewport height */
+    box-sizing: border-box;
+}
+
+.node {
+    grid-row: 1 / span 2; /* Make the node span two rows */
+    background-color: #1d293b;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Make sure node section takes the full viewport height */
+}
+
+.livestream, .traffic {
+    background-color: #1d293b;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    height: 50vh; /* Each section takes 50% of the viewport height */
+}
+
+.iframe-container, .chart {
+    flex-grow: 1; /* Makes sure the iframe or chart container takes up available space */
+}
+
+.top, .top2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.header {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 600;
+}
+
+select {
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2a3b50;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+select:hover {
+    background-color: #3a4b60;
+}
+
+iframe {
+    width: 100%;
+    height: 100%; /* Ensure the iframe takes up the full height of its container */
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.video-iframe {
+    height: 100%; /* Ensure the iframe takes up the full height of its container */
+}
+
+/* Ensure items take full width on smaller screens */
+@media (max-width: 768px) {
+    .home {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto; /* Ensure all sections stack vertically */
+    }
+
+    .node, .livestream, .traffic {
+        width: 100%;
+        height: auto; /* Ensure height adjusts to content on smaller screens */
+    }
 }

@@ -76,7 +76,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
+                  ADMIN
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -114,7 +114,7 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Dashboard"
+              title="Home"
               to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
@@ -126,19 +126,19 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Data
+              Monitoring
             </Typography>
             <Item
-              title="Overview"
-              to="/Overview"
-              icon={<ManageSearchIcon />}
+              title="Node Monitoring"
+              to="/iotNode"
+              icon={<VideocamIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="IOT NODES"
-              to="/iotNode"
-              icon={<VideocamIcon />}
+             <Item
+              title="Traffic Monitoring"
+              to="/Overview"
+              icon={<ManageSearchIcon />}
               selected={selected}
               setSelected={setSelected}
             />

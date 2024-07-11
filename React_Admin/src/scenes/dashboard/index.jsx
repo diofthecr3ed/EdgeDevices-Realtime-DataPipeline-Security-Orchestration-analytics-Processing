@@ -2,24 +2,29 @@ import React from 'react';
 import './index.css'
 
 const Index = () => {
-      return (
+    return (
         <div className="home">
             <div className="node">
                 <div className='top'>
                     <div className="header">Node Data</div>
-                    <select
-                        // className="dropdown"
-                        // value={}
-                        // onChange={}
-                    >
+                    <select>
+                        {/* Options */}
                     </select>
                 </div>
-                <div className='iframe-container'>
-                    <iframe
-                        // src={`http://${ip}:5000/video_feed`}
-                        // frameBorder="0"
-                        title="Live Video Feed"
-                        className='video-iframe'
+                <div className='data-container'>
+                    <iframe 
+                        src="http://localhost:3000/d-solo/ddqj959mhsqv4a/nodes-index?orgId=1&refresh=5s&from=1720682910779&to=1720683210780&panelId=17"  
+                        className='ram_gauge'
+                    ></iframe>
+
+                    <iframe 
+                        src="http://localhost:3000/d-solo/ddqj959mhsqv4a/nodes-index?orgId=1&refresh=5s&from=1720688884710&to=1720689184710&panelId=35"  
+                        className='cpu_gauge'
+                    ></iframe>
+
+                    <iframe 
+                        src="http://localhost:3000/d-solo/ddqj959mhsqv4a/nodes-index?orgId=1&refresh=5s&from=1720688411614&to=1720688711614&panelId=3"
+                        className='temp_graph'
                     ></iframe>
                 </div>
             </div>
@@ -43,9 +48,9 @@ const Index = () => {
                 </div>
             </div>
 
-                    
-          </div>
+        </div>
     )
 }
 
 export default Index;
+  

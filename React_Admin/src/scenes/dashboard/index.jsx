@@ -1,5 +1,7 @@
 import React from 'react';
 import './index.css'
+import KafkaVideo from "./kafka_video"
+
 
 const Index = () => {
     return (
@@ -47,6 +49,7 @@ const Index = () => {
                     {/* <LiveChart/> */}
                 </div>
             </div>
+            <KafkaVideo/>
 
         </div>
     )

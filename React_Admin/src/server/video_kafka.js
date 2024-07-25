@@ -22,7 +22,7 @@ client.on('ready', () => {
 
 const consumer = new Consumer(
   client,
-  [{ topic: 'GATE1-NODE', partition: 0 }],
+  [{ topic: 'video_frames', partition: 0 }],
   {
     groupId: 'node_consumer',
     autoCommit: true

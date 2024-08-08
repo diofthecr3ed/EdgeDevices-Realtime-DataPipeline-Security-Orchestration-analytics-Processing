@@ -16,7 +16,7 @@
 Failed to build confluent-kafka
 Installing collected packages: confluent-kafka
     Running setup.py install for confluent-kafka ... error
-
-*Solution:** install req packages 
+**
+*Solution:** install req packages **
         **sudo apt-get install -y librdkafka-dev
           pip install wheel**

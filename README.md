@@ -74,7 +74,8 @@ bin/kafka-console-consumer.sh --topic your_topic_name --from-beginning --bootstr
 - **Start Consumer:** `bin/kafka-console-consumer.sh --topic your_topic_name --from-beginning --bootstrap-server localhost:9092`
 
 ### Required packages after kafka setup 
-     get java kit 
+        ## get java development kit 
+        
          ```sudo apt-get update
          sudo apt-get install openjdk-21-jdk'''
 

@@ -72,3 +72,9 @@ bin/kafka-console-consumer.sh --topic your_topic_name --from-beginning --bootstr
 - **Verify Kafka Topic:** (optional) `bin/kafka-topics.sh --list --bootstrap-server localhost:9092`
 - **Start Producer:** `bin/kafka-console-producer.sh --topic your_topic_name --bootstrap-server localhost:9092`
 - **Start Consumer:** `bin/kafka-console-consumer.sh --topic your_topic_name --from-beginning --bootstrap-server localhost:9092`
+
+### Required packages after kafka setup 
+     get java kit 
+         ```sudo apt-get update
+         sudo apt-get install openjdk-21-jdk'''
+

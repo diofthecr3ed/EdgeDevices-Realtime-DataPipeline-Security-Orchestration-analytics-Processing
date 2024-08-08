@@ -81,6 +81,6 @@ bin/kafka-console-consumer.sh --topic your_topic_name --from-beginning --bootstr
 
   #### Get confluent kafka (if any error see error_readme_file)
   
-         ```pip install confluent-kafka```    
+         pip install confluent-kafka    
       
 

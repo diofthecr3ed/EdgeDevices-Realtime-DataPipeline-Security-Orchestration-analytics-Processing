@@ -74,8 +74,13 @@ bin/kafka-console-consumer.sh --topic your_topic_name --from-beginning --bootstr
 - **Start Consumer:** `bin/kafka-console-consumer.sh --topic your_topic_name --from-beginning --bootstrap-server localhost:9092`
 
 ### Required packages after kafka setup 
- #### Get java development kit 
+ #### Get java development kit, confluent kafka ,  
         
-         ```sudo apt-get update
-         sudo apt-get install openjdk-21-jdk'''
+         sudo apt-get update
+         sudo apt-get install openjdk-21-jdk
+
+  ##### get confluent kafka 
+  
+         ```pip install confluent-kafka```    
+      
 

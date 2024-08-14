@@ -1,21 +1,41 @@
-from kafka import KafkaConsumer
-import os
+from confluent_kafka import Consumer, KafkaError
 
-# Kafka Consumer Configuration
-consumer = KafkaConsumer(
-    'video_frames',
-    bootstrap_servers=['10.1.17.100:9092'],
-    auto_offset_reset='earliest',
-    enable_auto_commit=True,
-    group_id='my-group'
-)
+# Kafka consumer configuration
+c = Consumer({
+    'bootstrap.servers': 'enter_ip:9092',  # Replace with your Kafka broker address
+    'group.id': 'video-consumer-group',        # Consumer group ID
+    'auto.offset.reset': 'earliest'            # Start reading from the earliest offset
+})
 
-# Define the path to save the video file
-output_file_path = 'received_video.mp4'
+# Subscribe to the topic
+c.subscribe(['topic_name'])
 
-# Reassemble video chunks and save to file
-with open(output_file_path, 'wb') as video_file:
-    for message in consumer:
-        video_file.write(message.value)
+# File path to save the video data
+file_path = '/home/user/Documents/nodedata.mp4'
 
-print(f"Video saved to {output_file_path}")
+try:
+    # Open the file in append-binary mode
+    with open(file_path, 'ab') as f:
+        while True:
+            msg = c.poll(1.0)  # Poll for messages with a 1-second timeout
+
+            if msg is None:
+                continue
+            if msg.error():
+                if msg.error().code() == KafkaError._PARTITION_EOF:
+                    continue
+                else:
+                    print(msg.error())
+                    break
+
+            # Write the video data to the file
+            f.write(msg.value())
+            # Print a message every time data is saved
+            print(f"Data written to {file_path}")
+
+except KeyboardInterrupt:
+    print("Consumption interrupted.")
+finally:
+    # Close the consumer
+    c.close()
+    print(f"Video data saved to {file_path}")

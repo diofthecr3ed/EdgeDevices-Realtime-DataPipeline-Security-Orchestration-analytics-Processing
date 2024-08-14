@@ -48,6 +48,11 @@ bin/kafka-topics.sh --list --bootstrap-server localhost:9092
 
 You can start producing and consuming messages to verify that Kafka is working.
 
+### 7. list all the kafka topics 
+
+bin/kafka-topics.sh --list --bootstrap-server 169.254.3.1:9092
+
+
 #### Start a Producer
 
 In a new terminal window, start the producer:

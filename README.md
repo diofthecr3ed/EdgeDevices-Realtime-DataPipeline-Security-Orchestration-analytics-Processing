@@ -50,8 +50,9 @@ You can start producing and consuming messages to verify that Kafka is working.
 
 ### 7. list all the kafka topics 
 
+```bash
 bin/kafka-topics.sh --list --bootstrap-server 169.254.3.1:9092
-
+```
 
 #### Start a Producer
 

@@ -53,6 +53,10 @@ You can start producing and consuming messages to verify that Kafka is working.
 ```bash
 bin/kafka-topics.sh --list --bootstrap-server 169.254.3.1:9092
 ```
+## for mutiple brokers
+```bash
+bin/kafka-topics.sh --list --bootstrap-server 169.254.3.1:9092,169.254.3.1:9093,169.254.3.1:9094
+```
 
 #### Start a Producer
 

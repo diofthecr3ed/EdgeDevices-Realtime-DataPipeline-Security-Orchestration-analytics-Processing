@@ -62,6 +62,19 @@ bin/kafka-topics.sh --list --bootstrap-server 169.254.3.1:9092,169.254.3.1:9093,
 ```
 bin/kafka-topics.sh --bootstrap-server 169.254.3.1:9092 --delete --topic <TOPIC-NAME>
 ```
+#### 9. lists Kafka topics and there Size in Giga-bytes
+```
+for topic in $(bin/kafka-topics.sh --list --bootstrap-server 172.18.0.1:9092); do
+    echo "Topic: $topic";
+    bin/kafka-log-dirs.sh --bootstrap-server 172.18.0.1:9092 --describe --topic-list $topic | grep -o '"size":[0-9]\+' | while read line; do
+        size_in_bytes=$(echo $line | awk -F':' '{print $2}');
+        if [[ ! -z "$size_in_bytes" && "$size_in_bytes" -ne 0 ]]; then
+            size_in_gb=$(echo "scale=2; $size_in_bytes / 1024 / 1024 / 1024" | bc);
+            echo "Partition Size: $size_in_gb GB";
+        fi;
+    done;
+done
+```
 
 #### Start a Producer
 

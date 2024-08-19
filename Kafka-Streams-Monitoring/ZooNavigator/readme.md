@@ -56,8 +56,19 @@ sudo snap install zoonavigator
 
 Go to http://localhost:9000.
 
+#### Run and Add zoonavigator on SystemD service 
 
-## License
-
-The project is licensed under Affero General Public License version 3.0 (AGPLv3).
+# Test Zoonavigator
+``` 
+docker-compose -f zoonavigator.yml up -d
+```
+# Setup Docker Compose as systemD
+```
+sudo nano /etc/systemd/system/docker-compose@.service
+```
+# Install Zoonavigator as SystemD
+```sudo mkdir -p /etc/docker/compose/zoonavigator/
+   sudo nano /etc/docker/compose/zoonavigator/docker-compose.yml
+   sudo systemctl start docker-compose@zoonavigator
+```
 

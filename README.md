@@ -58,7 +58,7 @@ bin/kafka-topics.sh --list --bootstrap-server 169.254.3.1:9092
 bin/kafka-topics.sh --list --bootstrap-server 169.254.3.1:9092,169.254.3.1:9093,169.254.3.1:9094
 ```
 
-### 8. Delete the kafka topics Data along with topic name 
+#### 8. Delete the kafka topics Data along with topic name 
 ```
 bin/kafka-topics.sh --bootstrap-server 169.254.3.1:9092 --delete --topic <TOPIC-NAME>
 ```

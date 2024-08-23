@@ -1,6 +1,8 @@
 # EdgeDevices-Realtime-DataPipeline-Security-Orchestration-Analytics-Processing
 
-##### Welcome to EdgeDevices-Realtime-DataPipeline-Security-Orchestration-Analytics-Processing, a comprehensive solution designed to manage and optimize data pipelines across edge devices, IoT, cloud environments, and microservices. This repository focuses on real-time data processing, robust security measures, orchestration, and analytics to provide a seamless and efficient data management experience
+### Welcome to EdgeDevices-Realtime-DataPipeline-Security-Orchestration-Analytics-Processing, a comprehensive solution designed to manage and optimize data pipelines across edge devices, IoT, cloud environments, and microservices. This repository focuses on real-time data processing, robust security measures, orchestration, and analytics to provide a seamless and efficient data management experience
+
+
 
 
 ![Screenshot 2024-06-20 132127](https://github.com/guri2198/Smart-and-Sustainble-urban-Mobility-data-pipeline/assets/42201427/64255490-deb7-40e8-9790-579fd6f8d58e)

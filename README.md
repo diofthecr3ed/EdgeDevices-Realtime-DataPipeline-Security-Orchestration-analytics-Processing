@@ -18,20 +18,19 @@ Welcome to **EdgeDevices-Realtime-DataPipeline-Security-Orchestration-Analytics-
 
 - **Analytics**: Provide powerful tools for visualizing and interpreting data, enabling actionable insights and informed decision-making.
 
-## Installation
 
+## System Architecture 
+
+![Screenshot 2024-06-20 132127](https://github.com/guri2198/Smart-and-Sustainble-urban-Mobility-data-pipeline/assets/42201427/64255490-deb7-40e8-9790-579fd6f8d58e)
+
+
+## Installation
 To get started, clone the repository and follow the installation instructions:
 
 ```bash
 git clone https://github.com/your-username/EdgeDevices-Realtime-DataPipeline-Security-Orchestration-Analytics-Processing.git
 cd EdgeDevices-Realtime-DataPipeline-Security-Orchestration-Analytics-Processing 
 ```
-
-
-## System Architecture 
-
-![Screenshot 2024-06-20 132127](https://github.com/guri2198/Smart-and-Sustainble-urban-Mobility-data-pipeline/assets/42201427/64255490-deb7-40e8-9790-579fd6f8d58e)
-
 
 ### Fast way to set up kafka cluster 
 

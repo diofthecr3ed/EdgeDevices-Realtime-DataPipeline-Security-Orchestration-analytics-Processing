@@ -123,6 +123,23 @@ In another terminal window, start the consumer:
 bin/kafka-console-consumer.sh --topic your_topic_name --from-beginning --bootstrap-server localhost:9092
 ```
 
+## Run Kafka commands from the terminal without needing to specify the full path to the Kafka executable every time
+
+To make Kafka commands accessible from any directory in your terminal, you need to add Kafka’s `bin` directory to your PATH environment variable.
+
+### Steps to Update PATH
+
+1. **Open the `~/.bashrc` File**
+
+   Open the `~/.bashrc` file in a text editor. You can use `nano` or any other text editor of your choice:
+
+   ```bash
+   nano ~/.bashrc
+  ```
+  export
+``` PATH="$PATH:~/kafka_2.13-3.0.0/bin"
+  ```
+
 ### Summary
 
 - **Start Zookeeper:** `bin/zookeeper-server-start.sh config/zookeeper.properties`

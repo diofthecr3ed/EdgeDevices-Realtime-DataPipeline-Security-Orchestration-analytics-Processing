@@ -135,10 +135,11 @@ To make Kafka commands accessible from any directory in your terminal, you need 
 
    ```bash
    nano ~/.bashrc
-  ```
-  export
+
+2. **Export**
+
    ```bash
-    PATH="$PATH:~/kafka_2.13-3.0.0/bin"
+   PATH="$PATH:~/kafka_2.13-3.0.0/bin"
   ```
 
 ### Summary

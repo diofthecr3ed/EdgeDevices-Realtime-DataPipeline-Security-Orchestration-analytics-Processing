@@ -30,6 +30,13 @@ Next, format your storage directory (replace <uuid> by your UUID obtained above)
 kafka-storage.sh format -t <uuid> -c ~/kafka_2.13-3.0.0/config/kraft/server.properties
 ```
 
+This will format the directory that is in the log.dirs in the config/kraft/server.properties file (by default /tmp/kraft-combined-logs)
+Now you can launch the broker itself in daemon mode by running this command. 
+
+```bash
+kafka-server-start.sh ~/kafka_2.13-3.0.0/config/kraft/server.properties
+```
+
 # Enable KRaft mode
 process.roles=broker,controller
 node.id=1

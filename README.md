@@ -1,6 +1,6 @@
 # EdgeDevices-RealtimeDataPipeline-Security-Orchestration-Analytics-Processing
 
-Welcome to **EdgeDevices-Realtime-DataPipeline-Security-Orchestration-Analytics-Processing**, a comprehensive solution designed to manage and optimize data pipelines across **edge devices**, **IoT**, **cloud environments**, and **microservices**. This repository focuses on real-time data pipelining, robust security measures, orchestration, and analytics to provide a seamless and efficient data management experience.
+A comprehensive solution designed to manage and optimize data pipelines across **edge devices**, **IoT**, **cloud environments**, and **microservices**. This repository focuses on real-time data pipelining, robust security measures, orchestration, and analytics to provide a seamless and efficient data management experience.
 
 ## Key Features
 
